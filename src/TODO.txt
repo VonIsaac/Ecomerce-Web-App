@@ -1,5 +1,5 @@
 1. Doing  Header and FrontPage - DONE
 2.Displaying Sales item in the Ui and put functionallity -DONE
-3. Viewing all deatails of every Item in the ui - IN PROGRESS!!
+3. Viewing all deatails of every Item in the ui - DONE
 4 Adding functionallity in every button like edit, delete, and buy 
 5. When u buy it the data of item are stored in the cart modal

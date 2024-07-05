@@ -15,9 +15,9 @@ const EventSales = () => {
        
             <div className=" mx-2">
                 <ul className=" grid grid-rows-4 grid-flow-col gap-5 ">
-                    {ItemData.map((item, key) => (
-                        <li key={key.id} className=" border bg-gray-900 text-stone-200 rounded-lg">
-                            <Link className=" flex justify-center items-center mt-5">
+                    {ItemData.map((item, index) => (
+                        <li key={item.id} className=" border bg-gray-900 text-stone-200 rounded-lg">
+                            <Link to={`/events/product/details/${item.id}`} className=" flex justify-center items-center mt-5">
                                 <img src={item.img} alt={item.description} className=" rounded-md w-[18rem]"/>
                             </Link>
                             <div className=" mx-1  ">
