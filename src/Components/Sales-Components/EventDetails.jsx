@@ -22,22 +22,32 @@ const EventDetails = () => {
 
     return(
         <div>
-            <div className=" flex justify-evenly items-center my-5">
+            <div className=" flex justify-evenly items-center my-6">
                 <h1 className=" uppercase font-bold text-3xl">{data.name} is one of most Unique Item</h1>
-                <Link to= '/events/product'>
+                <Link to= '/events/product' className=" bg-slate-900 text-zinc-300 px-3 py-2 font-semibold rounded-md">
                     View all Items!
                 </Link>
             </div>
 
             <div className=" flex flex-col justify-center items-center h-screen">
-                <div className="  p-5 bg-stone-900">
-                   <div className=" flex justify-center items-center">
-                    <img src={data.img} alt={data.name} className="w-[30rem]"/>
-                   </div>
-                    <h1>{data.name}</h1>
-                    <p>{currencyFormatter.format(data.price)}</p>
-                    <p>{data.description}</p>
+
+                <div className=" grid grid-rows-2 grid-flow-col gap-5 my-5 mt-[150px] ">
+                    <button className=" bg-stone-900 text-gray-300 font-semibold py-1 rounded-md">Buy Now</button>
+                    <button className=" bg-stone-900 text-gray-300 font-semibold py-1 px-2 rounded-md">Add To Cart</button>
+                    <button className=" bg-stone-900 text-gray-300 font-semibold py-1 rounded-md">Edit Item</button>
+                    <button className=" bg-stone-900 text-gray-300 font-semibold py-1 px-2 rounded-md">Delete Item</button>
                 </div>
+
+                <div className=" mt-[20px]  p-5 bg-stone-900 rounded-md">
+                   <div className=" flex justify-center items-center">
+                    <img src={data.img} alt={data.name} className="w-[30rem] rounded"/>
+                   </div>
+                    <h1 className=" text-stone-300 font-extrabold text-2xl">{data.name}</h1>
+                    <p className=" font-semibold text-stone-300">{currencyFormatter.format(data.price)}</p>
+                    <p className=" font-semibold text-stone-300 text-xl">{data.description}</p>
+                </div>
+
+               
             </div>
         </div>
     )

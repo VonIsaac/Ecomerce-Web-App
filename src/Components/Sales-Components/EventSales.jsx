@@ -7,7 +7,8 @@ const EventSales = () => {
             <div className=" flex flex-col mt-4 mb-9 justify-center items-center">
                 <h1 className=" text-[85px] font-serif font-bold leading-tight">All Items!</h1>
                 <p className=" font-semibold text-xl font-serif ">
-                    All Items are sale up to <span className=" text-green-600">20%,</span> Get your's now!
+                    All Items are sale up to <span className=" text-green-600">20%,</span> Get your's now! <br />
+                    You can Add to Cart, Delete Edit and also Buy this Item
                 </p>
 
                 
@@ -27,10 +28,12 @@ const EventSales = () => {
                             </div>
 
                             <div className=" flex flex-col justify-items-start items-start my-3">
-                                <button>Add to Cart</button>
-                                <button>Buy</button>
+                                <button className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Add to Cart</button>
+                                <button className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Buy Now</button>
                                
                             </div>
+
+                            
                         </li>
                         
                     ))}
