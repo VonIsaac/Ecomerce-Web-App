@@ -12,15 +12,19 @@ const ItemData = createSlice({
         buyItems(state, action){
             const newItem = action.payload
             const existingItem = state.items.find((item) => item.id === newItem.id)
+            state.totalQuantity++
             state.change = true
             if(!existingItem){
                 state.items.push({
                     id:newItem.id,
                     name:newItem.name,
                     price:newItem.price,
+                    quantity: 1,
                     description:newItem.description,
                     img: newItem.img
                 })
+            }else{
+                existingItem.quantity = existingItem.quantity + 1
             }
         }
     }
