@@ -3,11 +3,16 @@ import { ItemData } from "../../Sales-ItemData/Data"
 import { currencyFormatter } from "../../Util/formattert"
 import { ItemDataAction } from "../../store/item-slice"
 import { useDispatch, useSelector } from "react-redux"
+import { useRef } from "react"
+import Modal from "../../UI/Modal"
 const EventSales = () => {
+    const openModal = useRef()
     const dispatch = useDispatch()
 
     const buyItemQuantity = useSelector(state => state.item.totalQuantity)
-    const handleBuyItem = (item) => {
+    const addToCartQuantity = useSelector(state => state.item.totalAddToCartQuantity)
+
+    const handleBuyItem = (item) => { 
         dispatch(ItemDataAction.buyItems({
             id: item.id,
             name: item.name,
@@ -18,8 +23,30 @@ const EventSales = () => {
     };
 
 
+    const handleAddToCartItem = (items) => {
+        dispatch(ItemDataAction.addToCartItem({
+            id: items.id,
+            name: items.name,
+            price: items.price,
+            description: items.description,
+            img:items.img
+        }))
+    }
+
+
+
+
+    const handleOpenModal = () => {
+        openModal.current.open()
+    }
+  
+    
+ 
+ 
     return(
        <>
+                <Modal ref={openModal}  />
+          
             <div className=" flex flex-col mt-4 mb-9 justify-center items-center">
             
                 <h1 className=" text-[85px] font-serif font-bold leading-tight">All Items!</h1>
@@ -30,9 +57,12 @@ const EventSales = () => {
 
             </div>
 
-            <div className=" flex  justify-end items-end">
-                    <button className=" bg-stone-900 text-gray-400 m-4 px-2 py-1 font-bold rounded-md">
+            <div className=" flex flex-col justify-end items-end">
+                    <button onClick={handleOpenModal} className=" bg-stone-900 text-gray-400 m-1 mb-2 px-2 py-1 font-bold rounded-md">
                         My Buy's Item {buyItemQuantity}
+                    </button>
+                    <button className=" bg-stone-900 text-gray-400 mb-2 px-2 py-1 font-bold rounded-md">
+                        My Cart Item {addToCartQuantity}
                     </button>
                 </div>
        
@@ -50,7 +80,7 @@ const EventSales = () => {
                             </div>
 
                             <div className=" flex flex-col justify-items-start items-start my-3">
-                                <button className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Add to Cart</button>
+                                <button onClick={() => handleAddToCartItem(item)} className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Add to Cart</button>
                                 <button onClick={() => handleBuyItem(item)}  className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Buy Now</button>
                                
                             </div>
