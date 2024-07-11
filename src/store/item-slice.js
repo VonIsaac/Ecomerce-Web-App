@@ -29,26 +29,7 @@ const ItemData = createSlice({
             }
         },
 
-        addToCartItem(state, action){
-            const itemsId = action.payload
-            const existingItems = state.items.find((items) => items.id === itemsId.id)
-            state.change = true
-            state.totalAddToCartQuantity++ 
-            if(!existingItems){
-                state.items.push({
-                    id:itemsId.id,
-                    name:itemsId.name,
-                    price:itemsId.price,
-                    quantity: 1,
-                    description: itemsId.description,
-                    img: itemsId.img
-                })
-            }else{
-                existingItems.quantity = existingItems.quantity + 1
-                existingItems.price = existingItems.price + itemsId.price
-            }
-
-        }
+       
 
         
     }

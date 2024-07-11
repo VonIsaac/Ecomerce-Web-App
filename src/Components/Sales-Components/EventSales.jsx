@@ -2,15 +2,20 @@ import { Link } from "react-router-dom"
 import { ItemData } from "../../Sales-ItemData/Data"
 import { currencyFormatter } from "../../Util/formattert"
 import { ItemDataAction } from "../../store/item-slice"
+import { ItemAddtoCartAction } from "../../store/item-addToCart-slice"
 import { useDispatch, useSelector } from "react-redux"
 import { useRef } from "react"
 import Modal from "../../UI/Modal"
-const EventSales = () => {
+import ModalAddToCart from "../../UI/Modal-AddToCart"
+const EventSales = () => { 
+  
+
     const openModal = useRef()
+    const cartModal = useRef()
     const dispatch = useDispatch()
 
     const buyItemQuantity = useSelector(state => state.item.totalQuantity)
-    const addToCartQuantity = useSelector(state => state.item.totalAddToCartQuantity)
+    const addToCartQuantity = useSelector(state => state.cartItems.totalCartQuantity)
 
     const handleBuyItem = (item) => { 
         dispatch(ItemDataAction.buyItems({
@@ -24,7 +29,7 @@ const EventSales = () => {
 
 
     const handleAddToCartItem = (items) => {
-        dispatch(ItemDataAction.addToCartItem({
+        dispatch(ItemAddtoCartAction.addToCartItem({
             id: items.id,
             name: items.name,
             price: items.price,
@@ -34,18 +39,33 @@ const EventSales = () => {
     }
 
 
-
-
     const handleOpenModal = () => {
         openModal.current.open()
     }
-  
     
- 
+   
+
  
     return(
        <>
                 <Modal ref={openModal}  />
+
+                {/*For AddtoCart Modal in bottom */}
+                  
+                    <ModalAddToCart ref={cartModal}>
+                        <form method="dialog" className=" flex justify-center items-start  my-5">
+                            <button className=" bg-slate-900 text-gray-300 px-2 py-1 font-semibold rounded-lg ">
+                                CLOSE
+                            </button>   
+                                                     
+                        </form>
+                       <div className=" flex justify-center items-start">
+                            <button  className="  bg-slate-900 text-gray-300 px-2 py-1 font-semibold rounded-lg ">
+                                CHECKOUT
+                            </button>
+                       </div>
+                    </ModalAddToCart>
+                        
           
             <div className=" flex flex-col mt-4 mb-9 justify-center items-center">
             
@@ -61,7 +81,7 @@ const EventSales = () => {
                     <button onClick={handleOpenModal} className=" bg-stone-900 text-gray-400 m-1 mb-2 px-2 py-1 font-bold rounded-md">
                         My Buy's Item {buyItemQuantity}
                     </button>
-                    <button className=" bg-stone-900 text-gray-400 mb-2 px-2 py-1 font-bold rounded-md">
+                    <button onClick={() => cartModal.current.open()} className=" bg-stone-900 text-gray-400 mb-2 px-2 py-1 font-bold rounded-md">
                         My Cart Item {addToCartQuantity}
                     </button>
                 </div>
