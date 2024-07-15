@@ -26,6 +26,7 @@ const ItemData = createSlice({
                 })
             }else{
                 existingItem.quantity = existingItem.quantity + 1
+                existingItem.price *= 2
             }
         },
 

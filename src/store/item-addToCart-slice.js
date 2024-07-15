@@ -5,7 +5,8 @@ const itemAddtoCart = createSlice({
     initialState: {
         cartItem: [],
         change: false,
-        totalCartQuantity: 0
+        totalCartQuantity: 0,
+        totalIncrementQuantity: 1
     },
 
 
@@ -26,12 +27,33 @@ const itemAddtoCart = createSlice({
                 })
             }else{
                 existingItems.quantity = existingItems.quantity + 1
-                existingItems.price = existingItems.price + itemsId.price
+                existingItems.price *= 2
             }
 
+        },
+
+        incrementPrice(state, action){
+            const incrementId = action.payload
+            const incrementState = state.cartItem.find((incrementItme) => incrementItme.id === incrementId.id)
+           if(incrementState){
+                state.change = true
+                incrementState.price *=2
+                incrementState.quantity++ 
+           }
+        },
+
+        decrementPrice(state, action){
+            const decrementID = action.payload
+            const decrementState = state.cartItem.find((decrementItem) => decrementItem.id === decrementID.id)
+
+            if(decrementState){
+                state.change = true
+                decrementState.price -= 2
+                decrementState.quantity --
+            }
         }
     }
 })
-
+ 
 export const ItemAddtoCartAction = itemAddtoCart.actions
 export default itemAddtoCart
