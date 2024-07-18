@@ -3,7 +3,7 @@ import { QueryClient } from "@tanstack/react-query";
 export const queryClient = new QueryClient();
 
 
-export async function handleBuyItem(buyItem){
+export async function handleBuyingItem(buyItem){
     const response = await fetch('https://ecomerce-web-app-default-rtdb.firebaseio.com/buy.json', {
         method: 'POST',
         body: JSON.stringify(buyItem),
@@ -19,4 +19,4 @@ export async function handleBuyItem(buyItem){
     const resData = await response.json()
 
     return resData
-}
+};

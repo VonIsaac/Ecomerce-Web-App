@@ -6,9 +6,24 @@ import { ItemAddtoCartAction } from "../../store/item-addToCart-slice"
 import { useDispatch, useSelector } from "react-redux"
 import { useRef } from "react"
 import Modal from "../../UI/Modal"
-import ModalAddToCart from "../../UI/Modal-AddToCart"
+import ModalAddToCart from "../../UI/Modal-AddToCart";
+import { useMutation } from "@tanstack/react-query"
+import { handleBuyingItem, queryClient } from "../../Util/http"
+
 const EventSales = () => { 
-  
+    
+    const {mutate} = useMutation({
+        mutationFn: handleBuyingItem,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['buy']
+            })
+        }
+    })
+
+    
+
+
 
     const openModal = useRef()
     const cartModal = useRef()
@@ -17,7 +32,8 @@ const EventSales = () => {
     const buyItemQuantity = useSelector(state => state.item.totalQuantity)
     const addToCartQuantity = useSelector(state => state.cartItems.totalCartQuantity)
 
-    const handleBuyItem = (item) => { 
+    const handleBuysItems = (item, buyItem) => { 
+        mutate({buy:buyItem})
         dispatch(ItemDataAction.buyItems({
             id: item.id,
             name: item.name,
@@ -25,6 +41,7 @@ const EventSales = () => {
             description: item.description,
             img: item.img
         }))
+    
     };
 
 
@@ -101,7 +118,7 @@ const EventSales = () => {
 
                             <div className=" flex flex-col justify-items-start items-start my-3">
                                 <button onClick={() => handleAddToCartItem(item)} className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Add to Cart</button>
-                                <button onClick={() => handleBuyItem(item)}  className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Buy Now</button>
+                                <button onClick={() => handleBuysItems(item)}  className=" bg-slate-300 text-stone-900 m-1 px-2  rounded-md font-medium">Buy Now</button>
                                
                             </div>
 

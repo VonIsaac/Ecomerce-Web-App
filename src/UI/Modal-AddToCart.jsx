@@ -3,6 +3,7 @@ import { createPortal } from "react-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { currencyFormatter } from "../Util/formattert"
 import  { ItemAddtoCartAction } from "../store/item-addToCart-slice"
+
 const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
     const cartModal = useRef()
     const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
     })
 
 
-
+       
 
     return createPortal(
         <dialog ref={cartModal} onClose={onClose} className="  border-solid p-3 bg-neutral-500 w-[45%] h-[60%] rounded-lg backdrop:bg-stone-900/90">
