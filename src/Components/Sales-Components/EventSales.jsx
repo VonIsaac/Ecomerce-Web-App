@@ -18,6 +18,9 @@ const EventSales = () => {
             queryClient.invalidateQueries({
                 queryKey: ['buy']
             })
+        },
+        onError: (error) => {
+            console.error("Error buying item:", error);
         }
     })
 
@@ -31,9 +34,15 @@ const EventSales = () => {
 
     const buyItemQuantity = useSelector(state => state.item.totalQuantity)
     const addToCartQuantity = useSelector(state => state.cartItems.totalCartQuantity)
+   // const handleData = useSelector(state => state.item)
 
-    const handleBuysItems = (item, buyItem) => { 
-        mutate({buy:buyItem})
+    const handleBuysItems = (item) => { 
+        mutate({id: item.id,
+            name: item.name,
+            price: item.price,
+            description: item.description,
+            img: item.img
+        })
         dispatch(ItemDataAction.buyItems({
             id: item.id,
             name: item.name,
