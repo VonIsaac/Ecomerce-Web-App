@@ -8,7 +8,7 @@ import { useRef } from "react"
 import Modal from "../../UI/Modal"
 import ModalAddToCart from "../../UI/Modal-AddToCart";
 import { useMutation } from "@tanstack/react-query"
-import { handleBuyingItem, queryClient } from "../../Util/http"
+import { handleBuyingItem, handleAddToCart, queryClient } from "../../Util/http"
 
 const EventSales = () => { 
     
@@ -22,6 +22,16 @@ const EventSales = () => {
         onError: (error) => {
             console.error("Error buying item:", error);
         }
+    })
+
+    const {mutate: data} = useMutation({
+        mutationFn: handleAddToCart,
+        onSuccess: () =>{
+            queryClient.invalidateQueries({
+                queryKey: ['cart']
+            })
+        },
+
     })
 
     
@@ -41,7 +51,9 @@ const EventSales = () => {
             name: item.name,
             price: item.price,
             description: item.description,
-            img: item.img
+            img: item.img,
+            quantity: item.quantity + 1
+           
         })
         dispatch(ItemDataAction.buyItems({
             id: item.id,
@@ -55,6 +67,13 @@ const EventSales = () => {
 
 
     const handleAddToCartItem = (items) => {
+        data({
+            id: items.id,
+            name: items.name,
+            price: items.price,
+            description: items.description,
+            img:items.img
+        })
         dispatch(ItemAddtoCartAction.addToCartItem({
             id: items.id,
             name: items.name,
@@ -103,7 +122,7 @@ const EventSales = () => {
 
             </div>
 
-            <div className=" flex flex-col justify-end items-end">
+                <div className=" flex flex-col justify-end items-end">
                     <button onClick={handleOpenModal} className=" bg-stone-900 text-gray-400 m-1 mb-2 px-2 py-1 font-bold rounded-md">
                         My Buy's Item {buyItemQuantity}
                     </button>
@@ -116,6 +135,7 @@ const EventSales = () => {
                 <ul className=" grid grid-rows-4 grid-flow-col gap-5 ">
                     {ItemData.map((item, index) => (
                         <li key={item.id} className=" border bg-gray-900 text-stone-200 rounded-lg">
+                            <h1>{item.quantity}</h1>
                             <Link to={`/events/product/details/${item.id}`} className=" flex justify-center items-center mt-5">
                                 <img src={item.img} alt={item.description} className=" rounded-md w-[18rem]"/>
                             </Link>
