@@ -3,8 +3,32 @@ import { createPortal } from "react-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { currencyFormatter } from "../Util/formattert"
 import  { ItemAddtoCartAction } from "../store/item-addToCart-slice"
+import { useMutation } from "@tanstack/react-query"
+import { handleAddToCart } from "../Util/http"
+import { useNavigate } from "react-router-dom"
+
 
 const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
+    const navigate = useNavigate()
+   
+    const {mutate} = useMutation({
+        mutationFn: handleAddToCart,
+        onSuccess: () =>{
+            queryClient.invalidateQueries({
+                queryKey: ['cart']
+            })
+        },
+
+    })
+
+    const addToCartData = useSelector(state => state.cartItems)
+
+    const handleAddToCartData = () => {
+        mutate(addToCartData)
+        navigate('../')
+    }
+
+
     const cartModal = useRef()
     const dispatch = useDispatch()
 
@@ -47,6 +71,11 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
                 ))}
             </ul>
             {children}
+            <div className=" flex justify-center items-start">
+                <button onClick={handleAddToCartData }  className="  bg-slate-900 text-gray-300 px-2 py-1 font-semibold rounded-lg ">
+                    CHECKOUT
+                </button>
+            </div>
         </dialog>,
          document.getElementById('modal-add-to-cart')
     )

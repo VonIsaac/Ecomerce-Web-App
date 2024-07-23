@@ -39,13 +39,7 @@ export async function handleAddToCart(items){
     try{
         const response = await fetch('https://ecomerce-web-app-default-rtdb.firebaseio.com/cart.json', {
             method: 'POST',
-            body: JSON.stringify({
-                id: items.id,
-                name: items.name,
-                price: items.price,
-                description: items.description,
-                img:items.img
-            }),
+            body: JSON.stringify(items),
             headers:{
                 'Content-Type': 'application/json'
             }

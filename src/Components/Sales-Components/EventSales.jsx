@@ -24,15 +24,7 @@ const EventSales = () => {
         }
     })
 
-    const {mutate: data} = useMutation({
-        mutationFn: handleAddToCart,
-        onSuccess: () =>{
-            queryClient.invalidateQueries({
-                queryKey: ['cart']
-            })
-        },
-
-    })
+    
 
     
 
@@ -67,13 +59,7 @@ const EventSales = () => {
 
 
     const handleAddToCartItem = (items) => {
-        data({
-            id: items.id,
-            name: items.name,
-            price: items.price,
-            description: items.description,
-            img:items.img
-        })
+      
         dispatch(ItemAddtoCartAction.addToCartItem({
             id: items.id,
             name: items.name,
@@ -104,11 +90,7 @@ const EventSales = () => {
                             </button>   
                                                      
                         </form>
-                       <div className=" flex justify-center items-start">
-                            <button  className="  bg-slate-900 text-gray-300 px-2 py-1 font-semibold rounded-lg ">
-                                CHECKOUT
-                            </button>
-                       </div>
+                       
                     </ModalAddToCart>
                         
           
