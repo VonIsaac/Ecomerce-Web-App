@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { currencyFormatter } from "../Util/formattert"
 import  { ItemAddtoCartAction } from "../store/item-addToCart-slice"
 import { useMutation } from "@tanstack/react-query"
-import { handleAddToCart, queryClient } from "../Util/http"
-//import { useNavigate } from "react-router-dom"
+import { handleAddToCart, handleDeleteItem, queryClient } from "../Util/http"
 import ModalThankyou from "./ModalCart-Thankyou"
-
+import { GoX } from "react-icons/go";
+import { useParams } from "react-router-dom"
 const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
-    
+    {/*For Fetching Cart */}
     const thanksModal = useRef()
+
     const {mutate} = useMutation({
         mutationFn: handleAddToCart,
         onSuccess: () =>{
@@ -25,12 +26,29 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
     const addToCartData = useSelector(state => state.cartItems)
 
     const handleAddToCartData = () => {
-        mutate(addToCartData)
-       
+        mutate(addToCartData) 
         
     }
+    {/*--------------- */}
 
 
+    {/*For Deleting Cart */}
+       
+        const {mutate: deleteMutate} = useMutation({
+            mutationFn: handleDeleteItem,
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['cart'],
+                    refetchType: 'none'
+                })
+            }
+        })
+
+        const handleDeleteDataCart = () => {
+            deleteMutate(addToCartData)
+        }
+
+    {/*--------------- */}
     const cartModal = useRef()
     const dispatch = useDispatch()
 
@@ -59,6 +77,9 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
         <>
             <ModalThankyou ref={thanksModal}/>
         <dialog ref={cartModal} onClose={onClose} className="  border-solid p-3 bg-neutral-500 w-[45%] h-[60%] rounded-lg backdrop:bg-stone-900/90">
+            <button onClick={handleDeleteDataCart}>
+                <GoX  />
+            </button>
             <ul>
                 {cartItem.map((cart) => (
                     <li key={cart.id} className=" border-b-2 border-black flex flex-col justify-center items-center ">

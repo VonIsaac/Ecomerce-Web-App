@@ -58,3 +58,21 @@ export async function handleAddToCart(items){
     }
 }
 
+
+export async function handleDeleteItem(){
+    try{
+        const response = await fetch('https://ecomerce-web-app-default-rtdb.firebaseio.com/cart.json', {
+            method: 'DELETE'
+        })
+
+        if(!response.ok){
+            throw new Error('Canot Delete Data')
+        }
+
+        return response.json()
+    }
+    catch(err){
+        throw err
+    }
+}
+
