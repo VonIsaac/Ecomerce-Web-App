@@ -51,6 +51,18 @@ const itemAddtoCart = createSlice({
                 decrementState.price -= 2
                 decrementState.quantity --
             }
+        },
+
+
+        deleteItemCart(state, action){
+            const deleteCartAction = action.payload
+            const existingDeleteCart = state.cartItem.find(deleteCart => deleteCart.id === deleteCartAction.id )
+            if(existingDeleteCart){
+                state.cartItem = state.cartItem.filter(deleteCart => deleteCart.id !== deleteCartAction.id)
+                state.change = true
+                state.totalCartQuantity--
+
+            }
         }
     }
 })

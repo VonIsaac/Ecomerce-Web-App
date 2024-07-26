@@ -24,12 +24,6 @@ const EventSales = () => {
         }
     })
 
-    
-
-    
-
-
-
     const openModal = useRef()
     const cartModal = useRef()
     const dispatch = useDispatch()
@@ -56,6 +50,8 @@ const EventSales = () => {
         }))
     
     };
+
+    
 
 
     const handleAddToCartItem = (items) => {

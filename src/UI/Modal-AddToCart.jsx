@@ -7,7 +7,8 @@ import { useMutation } from "@tanstack/react-query"
 import { handleAddToCart, handleDeleteItem, queryClient } from "../Util/http"
 import ModalThankyou from "./ModalCart-Thankyou"
 import { GoX } from "react-icons/go";
-import { useParams } from "react-router-dom"
+
+//import { useParams } from "react-router-dom"
 const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
     {/*For Fetching Cart */}
     const thanksModal = useRef()
@@ -26,6 +27,7 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
     const addToCartData = useSelector(state => state.cartItems)
 
     const handleAddToCartData = () => {
+        
         mutate(addToCartData) 
         
     }
@@ -33,7 +35,7 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
 
 
     {/*For Deleting Cart */}
-       
+    // /const addToCartDatas = useSelector(state => state.cartItems.cartItem)
         const {mutate: deleteMutate} = useMutation({
             mutationFn: handleDeleteItem,
             onSuccess: () => {
@@ -44,8 +46,10 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
             }
         })
 
-        const handleDeleteDataCart = () => {
+        const handleDeleteDataCart = (id) => {
+            dispatch(ItemAddtoCartAction.deleteItemCart({id}))
             deleteMutate(addToCartData)
+            
         }
 
     {/*--------------- */}
@@ -77,22 +81,27 @@ const ModalAddToCart = forwardRef(({children, onClose}, ref) => {
         <>
             <ModalThankyou ref={thanksModal}/>
         <dialog ref={cartModal} onClose={onClose} className="  border-solid p-3 bg-neutral-500 w-[45%] h-[60%] rounded-lg backdrop:bg-stone-900/90">
-            <button onClick={handleDeleteDataCart}>
-                <GoX  />
-            </button>
+               
             <ul>
                 {cartItem.map((cart) => (
-                    <li key={cart.id} className=" border-b-2 border-black flex flex-col justify-center items-center ">
-                        <h1>{cart.quantity}</h1>
-                        <img src={cart.img} alt={cart.name} className=" w-[60px] rounded-md"/>
-                        <p className=" my-2 font-bold text-3xl">{cart.name}</p>
-                        <div className=" flex justify-center items-center gap-3 text-xl mb-2">
-                            <button onClick={() => handleDecrement(cart.id)} className=" font-extrabold">-</button>    
-                            <p className=" font-semibold">{currencyFormatter.format(cart.price)}</p>
-                            <button onClick={()=> handleIncrement(cart.id)} className=" font-extrabold">+</button>
-                        </div>  
-                        <p className=" font-semibold text-lg mb-2">{cart.description}</p>
-                    </li>
+                    
+                        
+                        <li key={cart.id} className=" border-b-2 border-black flex flex-col justify-center items-center ">
+                             <button onClick={() => handleDeleteDataCart(cart.id)}>
+                                <GoX  />
+                            </button>
+                            <h1>{cart.quantity}</h1>
+                            <img src={cart.img} alt={cart.name} className=" w-[60px] rounded-md"/>
+                            <p className=" my-2 font-bold text-3xl">{cart.name}</p>
+                            <div className=" flex justify-center items-center gap-3 text-xl mb-2">
+                                <button onClick={() => handleDecrement(cart.id)} className=" font-extrabold">-</button>    
+                                <p className=" font-semibold">{currencyFormatter.format(cart.price)}</p>
+                                <button onClick={()=> handleIncrement(cart.id)} className=" font-extrabold">+</button>
+                            </div>  
+                            <p className=" font-semibold text-lg mb-2">{cart.description}</p>
+                        </li>
+                    
+               
                 ))}
             </ul>
             {children}
